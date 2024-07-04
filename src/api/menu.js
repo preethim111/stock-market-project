@@ -6,7 +6,7 @@ const initialState = {
   openedComponent: 'buttons',
   openedHorizontalItem: null,
   isDashboardDrawerOpened: false,
-  isComponentDrawerOpened: true
+  isComponentDrawerOpened: true 
 };
 
 export const endpoints = {
