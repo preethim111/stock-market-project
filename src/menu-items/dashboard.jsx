@@ -1,5 +1,6 @@
 // assets
 import { DashboardOutlined } from '@ant-design/icons';
+import { AttachMoney, FilterAlt } from '@mui/icons-material';
 
 // icons
 const icons = {
@@ -20,7 +21,24 @@ const dashboard = {
       url: '/dashboard/default',
       icon: icons.DashboardOutlined,
       breadcrumbs: false
+    },
+    {
+      id: 'price',
+      title: 'Open/Close Stock Prices',
+      type: 'item',
+      url: '/dashboard/price',
+      icon: AttachMoney,
+      breadcrumbs: false
+    },
+    {
+      id: 'screener',
+      title: 'Stock Screener',
+      type: 'item',
+      url: '/dashboard/screener',
+      icon: FilterAlt,
+      breadcrumbs: false
     }
+
   ]
 };
 

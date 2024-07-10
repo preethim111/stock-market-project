@@ -3,11 +3,16 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import Dashboard from 'layout/Dashboard';
+import StockOpenClose from 'pages/price';
+import StockScreener from 'pages/dashboard/screener';
+import StockPerformanceComparison from 'pages/dashboard/stockPerformance'
 
 const Color = Loadable(lazy(() => import('pages/component-overview/color')));
 const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
 const Shadow = Loadable(lazy(() => import('pages/component-overview/shadows')));
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/index')));
+// const StockScreener = Loadable(lazy(() => import('pages/price/index')))
+//const StockPerformanceComparison = Loadable(lazy(() => import('pages/stockPerformance/index')))
 
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
@@ -32,6 +37,18 @@ const MainRoutes = {
         {
           path: 'default',
           element: <DashboardDefault />
+        },
+        {
+          path: 'price',
+          element: <StockOpenClose />
+        },
+        {
+          path: 'screener',
+          element: <StockScreener />
+        },
+        {
+          path: 'performance',
+          element: <StockPerformanceComparison />
         }
       ]
     },

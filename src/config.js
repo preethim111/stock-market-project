@@ -11,6 +11,10 @@ const config = {
   themeDirection: 'ltr'
 };
 
+const config2 = {
+  defaultPrice: '/dashboard/price'
+}
+
 export default config;
 export const drawerWidth = 260;
 
