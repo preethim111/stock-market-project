@@ -1,82 +1,220 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Line } from 'react-chartjs-2';
+// import React, { useState } from 'react';
+// import axios from 'axios';
+// import {
+//   Container,
+//   TextField,
+//   CircularProgress,
+//   Typography,
+//   Box,
+//   Button
+// } from '@mui/material';
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+// export default function StockPerformanceComparison() {
+//   const [tickers, setTickers] = useState('');
+//   const [data, setData] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(null);
+
+//   const fetchData = async () => {
+//     setLoading(true);
+//     setError(null);
+//     setData([]);
+
+//     const apiKey = 'xzK4szgLdGZ1CULMd79I20rsCb4hhSR4';
+//     const endpoint = `https://financialmodelingprep.com/api/v3/historical-price-full/${tickers}?apikey=${apiKey}`;
+
+//     try {
+//       const response = await axios.get(endpoint);
+//       console.log(response.data); // Log the response data to understand its structure
+//       if (response.data.historical) {
+//         setData(response.data.historical);
+//       } else {
+//         setError(new Error('Unexpected response structure'));
+//       }
+//     } catch (err) {
+//       setError(err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     fetchData();
+//   };
+
+//   return (
+//     <Container>
+//       <Typography variant="h4" gutterBottom>
+//         Stock Performance Comparison
+//       </Typography>
+
+//       <Box component="form" mb={3} noValidate autoComplete="off">
+//         <div>
+//           <TextField
+//             label="Tickers"
+//             variant="outlined"
+//             value={tickers}
+//             onChange={(e) => setTickers(e.target.value)}
+//             margin="normal"
+//           />
+//         </div>
+
+//         <div>
+//           <Button variant="contained" onClick={handleSubmit}>
+//             Search
+//           </Button>
+//         </div>
+//       </Box>
+
+//       {loading && <CircularProgress />}
+//       {error && <div>Error: {error.message}</div>}
+
+//       {data.length > 0 && (
+//         <ResponsiveContainer width="100%" height={400}>
+//           <LineChart
+//             data={data.map((d) => ({ date: d.date, close: d.close }))}
+//             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+//           >
+//             <CartesianGrid strokeDasharray="3 3" />
+//             <XAxis dataKey="date" />
+//             <YAxis />
+//             <Tooltip />
+//             <Legend />
+//             <Line type="monotone" dataKey="close" stroke="#8884d8" activeDot={{ r: 8 }} />
+//           </LineChart>
+//         </ResponsiveContainer>
+//       )}
+//     </Container>
+//   );
+// }
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import {
+  Container,
+  TextField,
+  CircularProgress,
+  Typography,
+  Box,
+  Button
+} from '@mui/material';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function StockPerformanceComparison() {
-    const [tickers, setTickers] = useState('');
-    const [data, setData] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+  const [tickers, setTickers] = useState('');
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    setData({});
 
-    const fetchData =  async () => {
-        setLoading(true);
-        setError(null);
-        setData(null);
+    const apiKey = 'xzK4szgLdGZ1CULMd79I20rsCb4hhSR4';
+    const tickerList = tickers.split(',').map(ticker => ticker.trim());
 
-        const apiKey = xzK4szgLdGZ1CULMd79I20rsCb4hhSR4;
-        const endpoint = `https://financialmodelingprep.com/api/v3/historical-price-full/${tickers}?apikey=${apiKey}`;
-
-        try {
-            const response = await axios.get(endpoint);
-            setData(response.data);
-        }  catch (err) {
-             setError(err);
-        } finally {
-            setLoading(false);
+    try {
+      const promises = tickerList.map(ticker => 
+        axios.get(`https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?apikey=${apiKey}`)
+      );
+      const responses = await Promise.all(promises);
+      const newData = {};
+      responses.forEach((response, index) => {
+        if (response.data.historical) {
+          newData[tickerList[index]] = response.data.historical;
         }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        fetchData();
+      });
+      setData(newData);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const transformData = (data) => {
-        if (!data) {
-            return null;
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetchData();
+  };
+
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const chartData = [];
+  if (Object.keys(data).length > 0) {
+    const dates = [...new Set(Object.values(data).flat().map(item => item.date))];
+    dates.forEach(date => {
+      const entry = { date };
+      Object.keys(data).forEach(ticker => {
+        const dayData = data[ticker].find(item => item.date === date);
+        if (dayData) {
+          entry[ticker] = dayData.close;
         }
-        const datasets = data.map((stock) => {
-            return {
-                label: stock.symbol,
-                data: stock.historical.map((entry) => ({
-                    x: entry.date,
-                    y: entry.close,
-                })),
-                fill: false, 
-                borderColor: getRandomColor(),
-            }
-        })
-    }
+      });
+      chartData.push(entry);
+    });
+  }
 
-    const getRandomColor = () => {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
+  return (
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Stock Performance Comparison
+      </Typography>
 
-}
+      <Box component="form" mb={3} noValidate autoComplete="off">
+        <div>
+          <TextField
+            label="Tickers (comma-separated)"
+            variant="outlined"
+            value={tickers}
+            onChange={(e) => setTickers(e.target.value)}
+            margin="normal"
+          />
+        </div>
 
-return (
-    <div>
-        <form onSubmit={handleSubmit}>
-            <label>
-                Enter Stock Tickers (comma separated):
-                <input 
-                    type="text"
-                    value = {tickers}
-                    onChange={(e) => setTickers(e.target.value)}
-                    required
-                />
-            </label>
-            <button type="submit">
-                Fetch Data
-            </button>
-        </form>
-    </div>
-)
+        <div>
+          <Button variant="contained" onClick={handleSubmit}>
+            Search
+          </Button>
+        </div>
+      </Box>
 
+      {loading && <CircularProgress />}
+      {error && <div>Error: {error.message}</div>}
+
+      {chartData.length > 0 && (
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart
+            data={chartData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {Object.keys(data).map((ticker) => (
+              <Line
+                key={ticker}
+                type="monotone"
+                dataKey={ticker}
+                stroke={getRandomColor()}
+                activeDot={{ r: 8 }}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      )}
+    </Container>
+  );
 }
 

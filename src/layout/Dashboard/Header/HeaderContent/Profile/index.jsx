@@ -70,6 +70,8 @@ export default function Profile() {
     setValue(newValue);
   };
 
+  
+
   const iconBackColorOpen = 'grey.100';
 
   return (
@@ -88,12 +90,12 @@ export default function Profile() {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <Stack direction="row" spacing={1.25} alignItems="center" sx={{ p: 0.5 }}>
+        {/* <Stack direction="row" spacing={1.25} alignItems="center" sx={{ p: 0.5 }}>
           <Avatar alt="profile user" src={avatar1} size="sm" />
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
             John Doe
           </Typography>
-        </Stack>
+        </Stack> */}
       </ButtonBase>
       <Popper
         placement="bottom-end"

@@ -1,7 +1,8 @@
 // assets
 import { DashboardOutlined } from '@ant-design/icons';
 import { AttachMoney, FilterAlt } from '@mui/icons-material';
-
+import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 // icons
 const icons = {
   DashboardOutlined
@@ -36,6 +37,23 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/screener',
       icon: FilterAlt,
+      breadcrumbs: false
+    }, 
+    {
+      id: 'performance',
+      title: 'Performance Comparison',
+      type: 'item',
+      url: '/dashboard/stock-performance',
+      icon: StackedLineChartIcon,
+      breadcrumbs: false
+
+    },
+    {
+      id: 'crypto',
+      title: 'Intraday Cryptocurrency',
+      type: 'item',
+      url: '/dashboard/crypto',
+      icon: CurrencyBitcoinIcon,
       breadcrumbs: false
     }
 

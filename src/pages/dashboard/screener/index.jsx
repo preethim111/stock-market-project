@@ -8,6 +8,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
+import {
+    Container,
+    TextField,
+    MenuItem,
+    CircularProgress,
+    Typography,
+    Box,
+    Button,
+    Grid
+  } from '@mui/material';
 
 export default function StockScreener() {
     const [filters, setFilters] = useState({
@@ -26,6 +36,11 @@ export default function StockScreener() {
     const [error, setError] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const options = [
+        {value: 'y', label: 'yes'},
+        {value: 'n', label: 'no'}
+    ]
 
     useEffect(() => {
         const fetchData = async () => {
@@ -75,14 +90,14 @@ export default function StockScreener() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // fetchData();
+        fetchData();
         // No need to call fetchData here, because useEffect will handle it on state change
     };
 
 
     return (
-        <div>
-            <form>
+        <Container>
+            {/* <form>
                 <div>
                     <label>
                         Market Cap More Than:
@@ -187,7 +202,157 @@ export default function StockScreener() {
                         </select>
                     </label>
                 </div>
-            </form>
+            </form> */}
+            <Typography variant="h4" gutterBottom>
+                    Stocks Screener
+                </Typography>
+            <Box component="form" mb={3} noValidate autoComplete="off">
+            
+            
+            {/* <div>
+              
+                    <TextField 
+                        label = "Market Cap More Than"
+                        variant = "outlined"
+                        value = {filters.marketCapMoreThan}
+                        onChange = {handleChange}
+                        margin="normal"
+                    />
+
+                    <TextField 
+                        label = "Market Cap Less Than"
+                        variant = "outlined"
+                        value = {filters.marketCapLessThan}
+                        onChange = {handleChange}
+                        margin="normal"
+                    />   
+
+                    <TextField 
+                        label = "Price More Than"
+                        variant = "outlined"
+                        value = {filters.priceMoreThan}
+                        onChange = {handleChange}
+                        margin="normal"
+                    />    
+                
+                </div>
+
+                <div>
+                <TextField 
+                        label = "Price Less Than"
+                        variant = "outlined"
+                        value = {filters.priceLessThan}
+                        onChange = {handleChange}
+                        margin="normal"
+                    /> 
+                </div> */}
+
+<Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Market Cap More Than"
+              variant="outlined"
+              name="marketCapMoreThan"
+              value={filters.marketCapMoreThan}
+              onChange={handleChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Market Cap Less Than"
+              variant="outlined"
+              name="marketCapLessThan"
+              value={filters.marketCapLessThan}
+              onChange={handleChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Price More Than"
+              variant="outlined"
+              name="priceMoreThan"
+              value={filters.priceMoreThan}
+              onChange={handleChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Price Less Than"
+              variant="outlined"
+              name="priceLessThan"
+              value={filters.priceLessThan}
+              onChange={handleChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Industry"
+              variant="outlined"
+              name="industry"
+              value={filters.industry}
+              onChange={handleChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+          <TextField
+            label = "Etf"
+            variant = "outlined"
+            value = {filters.isEtf}
+            onChange = {handleChange}
+            select
+            fullWidth
+            >
+                {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                {option.label}
+                </MenuItem>
+                        ))}
+
+        </TextField>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+          <TextField
+            label = "Fund"
+            variant = "outlined"
+            value = {filters.isFund}
+            onChange = {handleChange}
+            select
+            fullWidth
+            >
+                {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                {option.label}
+                </MenuItem>
+                        ))}
+
+        </TextField>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+          <TextField
+            label = "Actively Trading"
+            variant = "outlined"
+            value = {filters.isActivelyTrading}
+            onChange = {handleChange}
+            select
+            fullWidth
+            >
+                {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                {option.label}
+                </MenuItem>
+                        ))}
+
+        </TextField>
+          </Grid>
+        </Grid>
+            </Box>
 
             {loading && <div>Loading...</div>}
             {error && <div>Error: {error.message}</div>}
@@ -229,7 +394,7 @@ export default function StockScreener() {
                     />
                 </Paper>
             )}
-        </div>
+        </Container>
     );
 }
 
