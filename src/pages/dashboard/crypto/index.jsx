@@ -19,8 +19,6 @@ export default function IntradayCrypto() {
 
     const [ticker, setTicker] = useState('');
     const [timeFrame, setTimeFrame] = useState('');
-    const [from, setFrom] = useState('');
-    const [to, setTo] = useState('');
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -106,16 +104,16 @@ export default function IntradayCrypto() {
                 {data && (
                     <ResponsiveContainer width="100%" height={400}>
                         <LineChart
-            data={data.map((d) => ({ date: d.date, close: d.close }))}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="close" stroke="#8884d8" activeDot={{ r: 8 }} />
-          </LineChart>
+                            data={data.map((d) => ({ date: d.date, close: d.close }))}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="close" stroke="#8884d8" activeDot={{ r: 8 }} />
+                        </LineChart>
                     </ResponsiveContainer>
                 )}
 

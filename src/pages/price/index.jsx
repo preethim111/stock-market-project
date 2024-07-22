@@ -21,6 +21,7 @@ export default function StockOpenClose() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const apiKey = import.meta.env.VITE_REACT_APP_FINANCIAL_MODELING_PREP;
 
     
     const fetchData = async () => {
@@ -29,9 +30,9 @@ export default function StockOpenClose() {
         setData(null);
 
         try {
-            const response = await axios.get(`https://api.polygon.io/v1/open-close/${ticker}/${date}?adjusted=true&apiKey=wspO28Pp94oS2MAyThBCn8NMFe9JulDf`, {
+            const response = await axios.get(`https://api.polygon.io/v1/open-close/${ticker}/${date}?adjusted=true`, {
             params: {
-                apiKey: 'wspO28Pp94oS2MAyThBCn8NMFe9JulDf'
+                apiKey: apiKey
             }
 
         });
@@ -97,17 +98,17 @@ export default function StockOpenClose() {
                     />
                     </div>
 
-                    {/* <div>
+                    <div>
                     <TextField 
-                        label = "Date"
+                        label = "Date (YYYY-MM-DD)"
                         variant = "outlined"
                         value = {date}
                         onChange = {(e) => setDate(e.target.value)}
                         margin="normal"
                     />
-                    </div> */}
+                    </div>
 
-                    <div>
+                    {/* <div>
                     <label>
                         Date
                         <input
@@ -117,7 +118,7 @@ export default function StockOpenClose() {
                             onChange={(e) => setDate(e.target.value)}
                         />
                     </label>
-                </div>
+                </div> */}
 
                     <Button variant="contained" onClick={handleSubmit}>
                         Search

@@ -36,6 +36,8 @@ export default function StockScreener() {
     const [error, setError] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const apiKey = import.meta.env.VITE_REACT_APP_FINANCIAL_MODELING_PREP;
+
 
     const options = [
         {value: 'y', label: 'yes'},
@@ -55,7 +57,7 @@ export default function StockScreener() {
                 isEtf: filters.isEtf || undefined,
                 isFund: filters.isFund || undefined,
                 isActivelyTrading: filters.isActivelyTrading || undefined,
-                apikey: 'xzK4szgLdGZ1CULMd79I20rsCb4hhSR4' 
+                apikey: apiKey 
             };
 
             try {
@@ -354,7 +356,7 @@ export default function StockScreener() {
         </Grid>
             </Box>
 
-            {loading && <div>Loading...</div>}
+            {loading && <CircularProgress />}
             {error && <div>Error: {error.message}</div>}
             {data.length > 0 && (
                 <Paper>
@@ -374,8 +376,8 @@ export default function StockScreener() {
                                 {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((stock, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{stock.companyName}</TableCell>
-                                        <TableCell>{stock.marketCap}</TableCell>
-                                        <TableCell>{stock.price}</TableCell>
+                                        <TableCell>${stock.marketCap.toLocaleString()}</TableCell>
+                                        <TableCell>${stock.price}</TableCell>
                                         <TableCell>{stock.isEtf ? 'Yes' : 'No'}</TableCell>
                                         <TableCell>{stock.isFund ? 'Yes' : 'No'}</TableCell>
                                         <TableCell>{stock.isActivelyTrading ? 'Yes' : 'No'}</TableCell>

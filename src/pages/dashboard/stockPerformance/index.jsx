@@ -21,7 +21,6 @@
 //     setError(null);
 //     setData([]);
 
-//     const apiKey = 'xzK4szgLdGZ1CULMd79I20rsCb4hhSR4';
 //     const endpoint = `https://financialmodelingprep.com/api/v3/historical-price-full/${tickers}?apikey=${apiKey}`;
 
 //     try {
@@ -90,7 +89,7 @@
 //   );
 // }
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -113,8 +112,10 @@ export default function StockPerformanceComparison() {
     setError(null);
     setData({});
 
-    const apiKey = 'xzK4szgLdGZ1CULMd79I20rsCb4hhSR4';
+    
     const tickerList = tickers.split(',').map(ticker => ticker.trim());
+    const apiKey = import.meta.env.VITE_REACT_APP_FINANCIAL_MODELING_PREP;
+
 
     try {
       const promises = tickerList.map(ticker => 
@@ -135,6 +136,10 @@ export default function StockPerformanceComparison() {
     }
   };
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     fetchData();
@@ -151,7 +156,7 @@ export default function StockPerformanceComparison() {
 
   const chartData = [];
   if (Object.keys(data).length > 0) {
-    const dates = [...new Set(Object.values(data).flat().map(item => item.date))];
+    const dates = [...new Set(Object.values(data).flat().map(item => item.date))].reverse();
     dates.forEach(date => {
       const entry = { date };
       Object.keys(data).forEach(ticker => {
@@ -168,6 +173,10 @@ export default function StockPerformanceComparison() {
     <Container>
       <Typography variant="h4" gutterBottom>
         Stock Performance Comparison
+      </Typography>
+
+      <Typography variant="h6">
+        This feature compares the different stocks' closing prices over time. Please write the stock tickers in the space provided below, separated with commas.
       </Typography>
 
       <Box component="form" mb={3} noValidate autoComplete="off">

@@ -27,7 +27,7 @@ export default function Header() {
   const drawerOpen = menuMaster.isDashboardDrawerOpened;
 
   // header content
-  const headerContent = useMemo(() => <HeaderContent />, []);
+  // const headerContent = useMemo(() => <HeaderContent />, []);
 
   const iconBackColor = 'grey.100';
   const iconBackColorOpen = 'grey.200';
