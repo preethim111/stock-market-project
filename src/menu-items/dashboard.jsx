@@ -3,6 +3,7 @@ import { DashboardOutlined } from '@ant-design/icons';
 import { AttachMoney, FilterAlt } from '@mui/icons-material';
 import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // icons
 const icons = {
   DashboardOutlined
@@ -21,6 +22,14 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/default',
       icon: icons.DashboardOutlined,
+      breadcrumbs: false
+    },
+    {
+      id: 'profile',
+      title: 'Company Profile',
+      type: 'item',
+      url: '/dashboard/profile',
+      icon: AccountCircleIcon,
       breadcrumbs: false
     },
     {

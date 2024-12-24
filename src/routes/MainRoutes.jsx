@@ -7,6 +7,8 @@ import StockOpenClose from 'pages/price';
 import StockScreener from 'pages/dashboard/screener';
 import StockPerformanceComparison from 'pages/dashboard/stockPerformance';
 import IntradayCrypto from 'pages/dashboard/crypto';
+import CompanyProfile from 'pages/dashboard/companyProfile';
+
 
 const Color = Loadable(lazy(() => import('pages/component-overview/color')));
 const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
@@ -54,6 +56,10 @@ const MainRoutes = {
         {
           path: 'crypto',
           element: <IntradayCrypto />
+        },
+        {
+          path: 'profile',
+          element: <CompanyProfile/>
         }
       ]
     },

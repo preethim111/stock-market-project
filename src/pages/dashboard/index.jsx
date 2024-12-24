@@ -169,7 +169,7 @@ export default function DashboardDefault() {
                   <TableRow key={index}>
                     <TableCell>{stock.symbol}</TableCell>
                     <TableCell>{stock.name}</TableCell>
-                    <TableCell>${stock.price.toLocaleString()}</TableCell>
+                    <TableCell>${stock.price}</TableCell>
                     <TableCell>{stock.type}</TableCell>
                   </TableRow>
                 ))}
